@@ -16,7 +16,7 @@ var server = http.createServer(processRequest);
 
 // Start the server
 server.listen(port, function () {
-    console.log('The server is running and listenting on port: ', port);
+    console.log('\x1b[32m%s\x1b[0m','The server is running and listening on port: ', port);
 });
 
 function processRequest(req, res) {
@@ -81,8 +81,13 @@ function processResponse(res, data, buffer) {
         res.setHeader('Content-Type', 'application/json');
         res.writeHead(statusCode);
         res.end(payloadString);
-        console.log("Returning this response: ", statusCode, payloadString);
 
+        if(typeof(statusCode) == 'number' && [200,201].indexOf(statusCode) > -1){
+            console.log("Returning this response: ", statusCode, payloadString);
+        } else
+        {
+            console.log('\x1b[31m%s\x1b[0m',"Returning this response: ", statusCode, payloadString);
+        }
     });
 };
 
@@ -91,7 +96,7 @@ var handlers = {};
 
 // Sample handler
 handlers.hello = function (data, callback) {
-    callback(406, { 'Message': 'Hello World!' });
+    callback(200, { 'Message': 'Hello World!' });
 };
 
 // Not found handler
