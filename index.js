@@ -96,7 +96,11 @@ var handlers = {};
 
 // Sample handler
 handlers.hello = function (data, callback) {
-    callback(200, { 'Message': 'Hello World!' });
+    if(data.method=='get'){
+        callback(200, { 'Message': 'Hello World!' });
+    } else {
+        callback(404);
+    }
 };
 
 // Not found handler
